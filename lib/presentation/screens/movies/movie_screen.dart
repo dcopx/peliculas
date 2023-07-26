@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peliculas/config/constants/app_environment.dart';
-import 'package:peliculas/structure/moviedb_datasource.dart';
+import 'package:peliculas/structure/datasource/moviedb_datasource.dart';
 
 class MovieScreen extends StatelessWidget {
   static const name = 'movie-screen';
