@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:peliculas/presentation/provider/movie/movies_providers.dart';
+import 'package:peliculas/presentation/screens/movies/movies_slider.dart';
+import 'package:peliculas/presentation/screens/widgets/shared/custom_appbar.dart';
 
 class MovieScreen extends StatelessWidget {
   static const name = 'movie-screen';
@@ -9,7 +11,7 @@ class MovieScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _HomeView());
+    return const Scaffold(body: _HomeView());
   }
 }
 
@@ -35,14 +37,22 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final pelicula = nowPlayingMovies[index];
-        return ListTile(
-          title: Text(pelicula.title),
-        );
-      },
+    return Column(
+      children: [
+        const CustomAppBar(),
+        MoviesSlider(movies: nowPlayingMovies),
+        Expanded(
+          child: ListView.builder(
+            itemCount: nowPlayingMovies.length,
+            itemBuilder: (context, index) {
+              final pelicula = nowPlayingMovies[index];
+              return ListTile(
+                title: Text(pelicula.title),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
