@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:peliculas/presentation/screens/widgets/shared/custom_movie_card.dart';
 
 import '../../../domain/entities/movie.dart';
@@ -65,8 +66,12 @@ class _MoviesListWiewState extends State<MoviesListWiew> {
               controller: scrollController,
               scrollDirection: Axis.horizontal,
               itemCount: widget.movies.length,
-              itemBuilder: (context, index) =>
-                  CustomMovieCard(movie: widget.movies[index]),
+              itemBuilder: (context, index) => GestureDetector(
+                child: CustomMovieCard(movie: widget.movies[index]),
+                onTap: () {
+                  context.push('/movie/${widget.movies[index].id}');
+                },
+              ),
             ),
           )
         ],

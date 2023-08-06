@@ -2,11 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/entities/movie.dart';
 
-typedef MovieCallBack = Future<List<Movie>> Function({int page});
+typedef MoviesCallBack = Future<List<Movie>> Function({int page});
 
 class MoviesNotifier extends StateNotifier<List<Movie>> {
   int current = 0;
-  MovieCallBack fetchMoreMovies;
+  MoviesCallBack fetchMoreMovies;
   bool isLoading = false;
 
   MoviesNotifier({required this.fetchMoreMovies}) : super([]);
