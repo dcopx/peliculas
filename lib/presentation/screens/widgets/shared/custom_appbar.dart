@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:peliculas/presentation/delagates/search_delagate.dart';
 
-class CustomAppBar extends StatelessWidget {
+import '../../../provider/provider_repository.dart';
+
+class CustomAppBar extends ConsumerWidget {
   const CustomAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final titleStyle = Theme.of(context).textTheme.titleMedium;
     return SafeArea(
       child: Padding(
@@ -21,8 +25,14 @@ class CustomAppBar extends StatelessWidget {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
                 icon: const Icon(Icons.search_off_outlined),
+                onPressed: () {
+                  final movieRepository = ref.read(moviesRepositoryProvider);
+                  showSearch(
+                      context: context,
+                      delegate: MovieSearchDelagate(
+                          searchMovies: movieRepository.searchMovie));
+                },
               )
             ],
           ),
