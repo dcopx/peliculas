@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:peliculas/presentation/provider/movie/movie_providers.dart';
+import 'package:peliculas/presentation/screens/movie/custom_appbar.dart';
+import 'package:peliculas/presentation/screens/movie/movie_body.dart';
 
 import '../../../domain/entities/movie.dart';
 
@@ -29,8 +31,11 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(movie.title),
+      body: CustomScrollView(
+        slivers: [
+          MovieCustomAppBar(movie: movie),
+          MovieBody(movie: movie),
+        ],
       ),
     );
   }

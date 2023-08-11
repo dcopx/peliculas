@@ -6,6 +6,6 @@ import '../../../domain/entities/movie.dart';
 
 final movieProvider =
     StateNotifierProvider<MovieNotifier, Map<String, Movie>>((ref) {
-  final fetchMovie = ref.watch(repositoryProvider).getMovieById;
+  final fetchMovie = ref.watch(moviesRepositoryProvider).getMovieById;
   return MovieNotifier(fetchMovie: fetchMovie);
 });

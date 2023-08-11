@@ -3,8 +3,9 @@ import 'package:peliculas/config/constants/app_environment.dart';
 import 'package:peliculas/domain/datasource/movies_datasource.dart';
 import 'package:peliculas/domain/entities/movie.dart';
 import 'package:peliculas/structure/mapper/movie_mapper.dart';
-import 'package:peliculas/structure/models/moviedb/moviedb_model_movie_detail.dart';
-import 'package:peliculas/structure/models/moviedb/moviedb_model_response.dart';
+
+import '../models/moviedb/movie/moviedb_model_movie_detail.dart';
+import '../models/moviedb/movie/moviedb_model_response.dart';
 
 class MovieDbDataSource extends MoviesDatasource {
   final _dio = Dio(

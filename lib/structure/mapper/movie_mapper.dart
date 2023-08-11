@@ -1,6 +1,7 @@
 import 'package:peliculas/domain/entities/movie.dart';
-import 'package:peliculas/structure/models/moviedb/moviedb_model_movie.dart';
-import 'package:peliculas/structure/models/moviedb/moviedb_model_movie_detail.dart';
+
+import '../models/moviedb/movie/moviedb_model_movie.dart';
+import '../models/moviedb/movie/moviedb_model_movie_detail.dart';
 
 class MovieMapper {
   static Movie movieDbToEntity(MovieDbModelMovie model) => Movie(

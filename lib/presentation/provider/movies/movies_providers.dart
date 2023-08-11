@@ -5,7 +5,7 @@ import 'package:peliculas/presentation/provider/provider_repository.dart';
 
 final nowPlayingMoviesProvider =
     StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
-  final fetchMoreMovies = ref.watch(repositoryProvider).getNowPlaying;
+  final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getNowPlaying;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
 
@@ -17,18 +17,18 @@ final principalNowPlayingProvider = Provider<List<Movie>>((ref) {
 
 final popularMoviesProvider =
     StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
-  final fetchMoreMovies = ref.watch(repositoryProvider).getPopular;
+  final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getPopular;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
 
 final topRatedMoviesProvider =
     StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
-  final fetchMoreMovies = ref.watch(repositoryProvider).getTopRated;
+  final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getTopRated;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
 
 final upComingMoviesProvider =
     StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
-  final fetchMoreMovies = ref.watch(repositoryProvider).getUpComing;
+  final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getUpComing;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
