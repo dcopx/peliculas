@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/movie.dart';
@@ -8,7 +10,28 @@ typedef SearchMovieCallBack = Future<List<Movie>> Function(String query);
 class MovieSearchDelagate extends SearchDelegate<Movie?> {
   final SearchMovieCallBack searchMovies;
 
+  StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  Timer? _debouncedTimer;
+
   MovieSearchDelagate({required this.searchMovies});
+
+  void _onQueryChanged(String query) {
+    if (_debouncedTimer?.isActive ?? false) _debouncedTimer!.cancel();
+
+    _debouncedTimer = Timer(const Duration(seconds: 1), () async {
+      if (query.isEmpty) {
+        debouncedMovies.add([]);
+        return;
+      }
+
+      final movies = await searchMovies(query);
+      debouncedMovies.add(movies);
+    });
+  }
+
+  void _disposeStreams() {
+    debouncedMovies.close();
+  }
 
   @override
   String? get searchFieldLabel => 'Buscar películas';
@@ -23,7 +46,10 @@ class MovieSearchDelagate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, null),
+        onPressed: () {
+          _disposeStreams();
+          close(context, null);
+        },
         icon: const Icon(Icons.arrow_back_ios));
   }
 
@@ -47,8 +73,9 @@ class MovieSearchDelagate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
-      future: searchMovies(query),
+    _onQueryChanged(query);
+    return StreamBuilder(
+      stream: debouncedMovies.stream,
       builder: (context, snapshot) {
         final movies = snapshot.data ?? [];
         return ListView.builder(
@@ -56,7 +83,10 @@ class MovieSearchDelagate extends SearchDelegate<Movie?> {
           itemBuilder: (context, index) {
             return CustomMovieItem(
               movie: movies[index],
-              onMovieSelected: close,
+              onMovieSelected: (context, movie) {
+                _disposeStreams();
+                close(context, movie);
+              },
             );
           },
         );
