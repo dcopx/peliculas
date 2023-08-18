@@ -9,24 +9,43 @@ typedef SearchMovieCallBack = Future<List<Movie>> Function(String query);
 
 class MovieSearchDelagate extends SearchDelegate<Movie?> {
   final SearchMovieCallBack searchMovies;
+  List<Movie> initialData;
 
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
   Timer? _debouncedTimer;
 
-  MovieSearchDelagate({required this.searchMovies});
+  MovieSearchDelagate({required this.searchMovies, required this.initialData});
 
   void _onQueryChanged(String query) {
     if (_debouncedTimer?.isActive ?? false) _debouncedTimer!.cancel();
 
     _debouncedTimer = Timer(const Duration(seconds: 1), () async {
-      if (query.isEmpty) {
-        debouncedMovies.add([]);
-        return;
-      }
-
       final movies = await searchMovies(query);
       debouncedMovies.add(movies);
+      initialData = movies;
     });
+  }
+
+  Widget _returnResults() {
+    return StreamBuilder(
+      initialData: initialData,
+      stream: debouncedMovies.stream,
+      builder: (context, snapshot) {
+        final movies = snapshot.data ?? [];
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index) {
+            return CustomMovieItem(
+              movie: movies[index],
+              onMovieSelected: (context, movie) {
+                _disposeStreams();
+                close(context, movie);
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   void _disposeStreams() {
@@ -55,42 +74,12 @@ class MovieSearchDelagate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
-      future: searchMovies(query),
-      builder: (context, snapshot) {
-        final movies = snapshot.data ?? [];
-        return ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(movies[index].title),
-            );
-          },
-        );
-      },
-    );
+    return _returnResults();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     _onQueryChanged(query);
-    return StreamBuilder(
-      stream: debouncedMovies.stream,
-      builder: (context, snapshot) {
-        final movies = snapshot.data ?? [];
-        return ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index) {
-            return CustomMovieItem(
-              movie: movies[index],
-              onMovieSelected: (context, movie) {
-                _disposeStreams();
-                close(context, movie);
-              },
-            );
-          },
-        );
-      },
-    );
+    return _returnResults();
   }
 }
