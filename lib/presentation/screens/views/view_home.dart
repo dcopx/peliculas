@@ -1,34 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:peliculas/presentation/provider/movies/movies_providers.dart';
-import 'package:peliculas/presentation/screens/movies/movies_listview.dart';
-import 'package:peliculas/presentation/screens/movies/movies_slider.dart';
-import 'package:peliculas/presentation/screens/widgets/shared/custom_appbar.dart';
 
-import '../widgets/shared/custom_navbar.dart';
+import '../../provider/movies/movies_providers.dart';
+import '../movies/movies_listview.dart';
+import '../movies/movies_slider.dart';
+import '../widgets/shared/custom_appbar.dart';
 
-class MoviesScreen extends StatelessWidget {
-  static const name = 'movies-screen';
-
-  const MoviesScreen({super.key});
+class HomeView extends ConsumerStatefulWidget {
+  const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: _HomeView(),
-      bottomNavigationBar: CustomNavBar(),
-    );
-  }
+  ConsumerState<HomeView> createState() => HomeViewState();
 }
 
-class _HomeView extends ConsumerStatefulWidget {
-  const _HomeView();
-
-  @override
-  ConsumerState<_HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends ConsumerState<_HomeView> {
+class HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();

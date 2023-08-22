@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/presentation/screens/widgets/shared/custom_gradient.dart';
 
 import '../../../domain/entities/movie.dart';
 
@@ -10,6 +11,12 @@ class MovieCustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.favorite_border_outlined),
+        )
+      ],
       foregroundColor: Colors.white,
       expandedHeight: screenSize.height * 0.7,
       flexibleSpace: FlexibleSpaceBar(
@@ -23,30 +30,27 @@ class MovieCustomAppBar extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox.expand(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    stops: [0.7, 1.0],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black]),
-              ),
-            ),
-          ),
-          const SizedBox.expand(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    stops: [0.0, 0.4],
-                    begin: Alignment.topLeft,
-                    colors: [
-                      Colors.black,
-                      Colors.transparent,
-                    ]),
-              ),
-            ),
-          )
+          const CustomGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.7, 1.0],
+              colors: [Colors.transparent, Colors.black]),
+          const CustomGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.0, 0.2],
+              colors: [Colors.black54, Colors.transparent]),
+          const CustomGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.centerRight,
+              stops: [
+                0.0,
+                0.4
+              ],
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ])
         ]),
       ),
     );

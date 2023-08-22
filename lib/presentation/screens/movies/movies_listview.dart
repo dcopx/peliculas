@@ -69,7 +69,7 @@ class _MoviesListWiewState extends State<MoviesListWiew> {
               itemBuilder: (context, index) => GestureDetector(
                 child: CustomMovieCard(movie: widget.movies[index]),
                 onTap: () {
-                  context.push('/movie/${widget.movies[index].id}');
+                  context.push('/home/0/movie/${widget.movies[index].id}');
                 },
               ),
             ),
