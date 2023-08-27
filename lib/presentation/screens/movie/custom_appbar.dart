@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:peliculas/presentation/screens/widgets/shared/custom_gradient.dart';
 
 import '../../../domain/entities/movie.dart';
+import '../../provider/localdb/local_provider.dart';
+import '../../provider/provider_repository.dart';
 
-class MovieCustomAppBar extends StatelessWidget {
+class MovieCustomAppBar extends ConsumerWidget {
   final Movie movie;
   const MovieCustomAppBar({super.key, required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final isFavoriteCheck = ref.watch(existsFavorite(movie.id));
     return SliverAppBar(
       actions: [
         IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.favorite_border_outlined),
+          icon: isFavoriteCheck.when(
+            data: (data) => data
+                ? const Icon(
+                    Icons.favorite_rounded,
+                    color: Colors.red,
+                  )
+                : const Icon(Icons.favorite_border_outlined),
+            error: (_, __) => throw UnimplementedError(),
+            loading: () => const CircularProgressIndicator(),
+          ),
+          onPressed: () {
+            ref.watch(localDataProvider).toggleFavorite(movie);
+            ref.invalidate(existsFavorite(movie.id));
+          },
         )
       ],
       foregroundColor: Colors.white,

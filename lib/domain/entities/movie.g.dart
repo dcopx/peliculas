@@ -213,7 +213,7 @@ P _movieDeserializeProp<P>(
 }
 
 Id _movieGetId(Movie object) {
-  return object.isarId ?? Isar.autoIncrement;
+  return object.isarId;
 }
 
 List<IsarLinkBase<dynamic>> _movieGetLinks(Movie object) {
@@ -706,23 +706,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isarId',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isarId',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdEqualTo(Id? value) {
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isarId',
@@ -732,7 +716,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdGreaterThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -745,7 +729,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdLessThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -758,8 +742,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> isarIdBetween(
-    Id? lower,
-    Id? upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
