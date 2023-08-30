@@ -5,7 +5,6 @@ import 'package:peliculas/presentation/screens/widgets/shared/custom_gradient.da
 
 import '../../../domain/entities/movie.dart';
 import '../../provider/localdb/local_provider.dart';
-import '../../provider/provider_repository.dart';
 
 class MovieCustomAppBar extends ConsumerWidget {
   final Movie movie;
