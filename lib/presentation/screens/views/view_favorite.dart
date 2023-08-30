@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:peliculas/presentation/screens/favorite/favorite_body.dart';
-import 'package:peliculas/presentation/screens/widgets/shared/custom_movie_card.dart';
-import 'package:peliculas/presentation/screens/widgets/shared/custom_movie_item.dart';
 
-import '../../../domain/entities/movie.dart';
 import '../../provider/localdb/local_provider.dart';
 
 class FavoriteView extends ConsumerStatefulWidget {
@@ -39,15 +35,18 @@ class _FavoriteViewState extends ConsumerState<FavoriteView> {
   Widget build(BuildContext context) {
     final movies = ref.watch(favoriteMovies).values.toList();
 
-    // return ListView.builder(
-    //   itemCount: movies.length,
-    //   itemBuilder: (context, index) {
-    //     final Movie movie = movies[index];
-    //     return ListTile(
-    //       title: Text(movie.title),
-    //     );
-    //   },
-    // );
+    if (movies.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.favorite_outline_outlined, size: 40),
+            Text('No hay favoritos',
+                style: TextStyle(color: Colors.red, fontSize: 30))
+          ],
+        ),
+      );
+    }
     return FavoritesBody(
       movies: movies,
       callBack: loadNextPage,

@@ -28,8 +28,8 @@ class MovieCustomAppBar extends ConsumerWidget {
             error: (_, __) => throw UnimplementedError(),
             loading: () => const CircularProgressIndicator(),
           ),
-          onPressed: () {
-            ref.watch(localDataProvider).toggleFavorite(movie);
+          onPressed: () async {
+            await ref.read(favoriteMovies.notifier).toggleFavorite(movie);
             ref.invalidate(existsFavorite(movie.id));
           },
         )

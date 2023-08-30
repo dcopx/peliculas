@@ -9,7 +9,7 @@ class FavoritesBody extends StatefulWidget {
   final List<Movie> movies;
   final VoidCallback? callBack;
 
-  FavoritesBody({super.key, required this.movies, this.callBack});
+  const FavoritesBody({super.key, required this.movies, this.callBack});
 
   @override
   State<FavoritesBody> createState() => _FavoritesBodyState();
